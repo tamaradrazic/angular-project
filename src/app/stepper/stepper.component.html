@@ -1,0 +1,79 @@
+<mat-horizontal-stepper linear #stepper="matHorizontalStepper">
+    <mat-step #step1 [completed]="firstStepDone(stepper)">
+        <div class="container">
+            <div class="inside">
+                <mat-card class="example-card">
+                    <div class="form-group">
+                        <form #loginForm="ngForm" (ngSubmit)="login(loginForm, stepper)">
+                            <mat-card-title class="header">Login</mat-card-title><br>
+                            <mat-form-field class="example-full-width">
+                                <mat-card-subtitle><input matInput type="text" required placeholder="Username"
+                                        name="username" [(ngModel)]="username">
+                                </mat-card-subtitle>
+                            </mat-form-field><br>
+                            <mat-form-field class="example-full-width">
+                                <mat-card-subtitle><input matInput type="password" required placeholder="Password"
+                                        name="password" [(ngModel)]="password">
+                                </mat-card-subtitle>
+                            </mat-form-field>
+                            <br>
+                            <div class="header">
+                                <button mat-button class="btn btn-primary" type="submit"
+                                    [disabled]="loginForm.invalid">Login</button><br><br>
+                                <button mat-button class="btn btn-primary"
+                                    (click)="router.navigate(['/register']);">Register</button><br><br>
+                                <div *ngIf="readLocalStorageValue('token') != undefined">
+                                    <button mat-button class="btn btn-primary"
+                                        (click)="logout(loginForm)">Logout</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+
+    </mat-step>
+    <mat-step #step2 [completed]="secondStepDone(stepper)">
+        <div class="container">
+            <div class="inside">
+                <mat-card class="example-card">
+                    <div class="form-group">
+                        <form #login2Form="ngForm" (ngSubmit)="login2(login2Form, stepper)">
+                            <p>Your code: {{code}}</p>
+                            <mat-card-title class="header">Enter your code</mat-card-title><br>
+                            <mat-form-field class="example-full-width">
+                                <mat-card-subtitle><input matInput type="text" required placeholder="Code" name="code"
+                                        maxlength="6" minlength="6" (ngModel)="code">
+                                </mat-card-subtitle>
+                            </mat-form-field><br>
+                            <br>
+                            <div class="header">
+                                <button mat-button class="btn btn-danger" type="submit"
+                                    [disabled]="login2Form.invalid">Login</button><br><br>
+                                <div *ngIf="readLocalStorageValue('token') != undefined">
+                                    <button mat-button class="btn btn-danger"
+                                        (click)="logout(login2Form)">Logout</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-step>
+    <mat-step>
+        <div class="container">
+            <div class="inside">
+                <mat-card class="example-card">
+                    <ng-template matStepLabel>Done</ng-template>
+                    You are now done.
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button (click)="reset(stepper)">Reset</button>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
